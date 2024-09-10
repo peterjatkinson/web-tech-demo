@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #205375;
+            margin-top: 0;
+        }
+        h1 {
+            font-size: 2.5em;
+            border-bottom: 2px solid #205375;
+            padding-bottom: 10px;
+        }
+        h2 {
+            font-size: 1.8em;
+        }
+        .demo-section {
+            background-color: white;
+            border: 1px solid #e0e0e0;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        button {
+            background-color: #205375;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2c7da0;
+        }
+        #html-demo {
+            border: 2px solid #e0e0e0;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 5px;
+        }
+        #css-demo {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            margin: 15px 0;
+            transition: all 0.3s ease;
+        }
+        .demo-controls {
+            margin-top: 15px;
+        }
+        textarea, pre {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            resize: vertical;
+        }
+        .code-display {
+            background-color: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-weight: 600; /* Increased font weight for better readability */
+            line-height: 1.4; /* Improved line height for code readability */
+            max-width: 100%; /* Ensure it doesn't exceed container width */
+            box-sizing: border-box; /* Include padding in width calculation */
+        }
+        .output-display {
+            border: 1px solid #e0e0e0;
+            padding: 15px;
+            margin-top: 15px;
+            min-height: 50px;
+            border-radius: 5px;
+        }
+        label {
+            display: block;
+            margin: 10px 0;
+        }
+        input[type="range"], input[type="color"] {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Interactive web technologies demo</h1>
+
+    <div class="demo-section">
+        <h2>HTML demo</h2>
+        <p>Edit the HTML below and click "Update HTML" to see changes:</p>
+        <textarea id="html-input" rows="5"><p>This is a paragraph.</p><ul><li>List item 1</li><li>List item 2</li></ul></textarea>
+        <button id="update-html">Update HTML</button>
+        <div id="html-demo"></div>
+    </div>
+
+    <div class="demo-section">
+        <h2>CSS demo</h2>
+        <p>Use the controls to change the CSS properties of the box:</p>
+        <div id="css-demo"></div>
+        <div class="demo-controls">
+            <label>Width: <input type="range" id="width-slider" min="50" max="200" value="100"></label>
+            <label>Height: <input type="range" id="height-slider" min="50" max="200" value="100"></label>
+            <label>Colour: <input type="color" id="color-picker" value="#ff0000"></label>
+            <label>Border radius: <input type="range" id="radius-slider" min="0" max="50" value="0"></label>
+        </div>
+        <pre id="css-code" class="code-display"></pre>
+    </div>
+
+    <div class="demo-section">
+        <h2>JavaScript demo</h2>
+        <p>Select a JavaScript example to see its code and effect:</p>
+        <select id="js-select">
+            <option value="hello">Hello World</option>
+            <option value="counter">Click Counter</option>
+            <option value="color">Random Colour</option>
+        </select>
+        <pre id="js-code" class="code-display"></pre>
+        <button id="run-js">Run code</button>
+        <div id="js-output" class="output-display"></div>
+    </div>
+
+    <script>
+        function updateHTML() {
+            const htmlInput = document.getElementById("html-input").value;
+            document.getElementById("html-demo").innerHTML = htmlInput;
+        }
+
+        function updateCSS() {
+            const demo = document.getElementById("css-demo");
+            const width = document.getElementById("width-slider").value;
+            const height = document.getElementById("height-slider").value;
+            const color = document.getElementById("color-picker").value;
+            const radius = document.getElementById("radius-slider").value;
+
+            demo.style.width = width + "px";
+            demo.style.height = height + "px";
+            demo.style.backgroundColor = color;
+            demo.style.borderRadius = radius + "px";
+
+            // Update CSS code display
+            const cssCode = `#css-demo {
+    width: ${width}px;
+    height: ${height}px;
+    background-color: ${color};
+    border-radius: ${radius}px;
+}`;
+            document.getElementById("css-code").textContent = cssCode;
+        }
+
+        const jsExamples = {
+            hello: {
+                code: `function sayHello() {
+    const name = prompt("What's your name?");
+    if (name) {
+        return "Hello, " + name + "!";
+    } else {
+        return "Hello, World!";
+    }
+}
+
+document.getElementById("js-output").textContent = sayHello();`,
+                run: function() {
+                    function sayHello() {
+                        const name = prompt("What's your name?");
+                        if (name) {
+                            return "Hello, " + name + "!";
+                        } else {
+                            return "Hello, World!";
+                        }
+                    }
+                    document.getElementById("js-output").textContent = sayHello();
+                }
+            },
+            counter: {
+                code: `let count = 0;
+
+function incrementCounter() {
+    count++;
+    document.getElementById("js-output").textContent = "Count: " + count;
+}
+
+const button = document.createElement('button');
+button.textContent = 'Increment';
+button.addEventListener('click', incrementCounter);
+document.getElementById("js-output").innerHTML = '';
+document.getElementById("js-output").appendChild(button);
+document.getElementById("js-output").appendChild(document.createElement('br'));
+document.getElementById("js-output").appendChild(document.createTextNode('Count: 0'));`,
+                run: function() {
+                    let count = 0;
+                    function incrementCounter() {
+                        count++;
+                        document.getElementById("js-output").lastChild.textContent = "Count: " + count;
+                    }
+                    const button = document.createElement('button');
+                    button.textContent = 'Increment';
+                    button.addEventListener('click', incrementCounter);
+                    document.getElementById("js-output").innerHTML = '';
+                    document.getElementById("js-output").appendChild(button);
+                    document.getElementById("js-output").appendChild(document.createElement('br'));
+                    document.getElementById("js-output").appendChild(document.createTextNode('Count: 0'));
+                }
+            },
+            color: {
+                code: `function getRandomColour() {
+    const letters = '0123456789ABCDEF';
+    let colour = '#';
+    for (let i = 0; i < 6; i++) {
+        colour += letters[Math.floor(Math.random() * 16)];
+    }
+    return colour;
+}
+
+function changeBackgroundColour() {
+    const newColour = getRandomColour();
+    document.body.style.backgroundColor = newColour;
+    document.getElementById("js-output").textContent = "New background colour: " + newColour;
+}
+
+const button = document.createElement('button');
+button.textContent = 'Change Colour';
+button.addEventListener('click', changeBackgroundColour);
+document.getElementById("js-output").innerHTML = '';
+document.getElementById("js-output").appendChild(button);`,
+                run: function() {
+                    function getRandomColour() {
+                        const letters = '0123456789ABCDEF';
+                        let colour = '#';
+                        for (let i = 0; i < 6; i++) {
+                            colour += letters[Math.floor(Math.random() * 16)];
+                        }
+                        return colour;
+                    }
+                    function changeBackgroundColour() {
+                        const newColour = getRandomColour();
+                        document.body.style.backgroundColor = newColour;
+                        document.getElementById("js-output").lastChild.textContent = "New background colour: " + newColour;
+                    }
+                    const button = document.createElement('button');
+                    button.textContent = 'Change Colour';
+                    button.addEventListener('click', changeBackgroundColour);
+                    document.getElementById("js-output").innerHTML = '';
+                    document.getElementById("js-output").appendChild(button);
+                    document.getElementById("js-output").appendChild(document.createElement('br'));
+                    document.getElementById("js-output").appendChild(document.createTextNode(''));
+                }
+            }
+        };
+
+        function updateJSExample() {
+            const selected = document.getElementById("js-select").value;
+            document.getElementById("js-code").textContent = jsExamples[selected].code;
+        }
+
+        function runJavaScript() {
+            const selected = document.getElementById("js-select").value;
+            jsExamples[selected].run();
+        }
+
+        // Initialise demos
+        updateHTML();
+        updateCSS();
+        updateJSExample();
+
+        // Add event listeners
+        document.getElementById("update-html").addEventListener("click", updateHTML);
+        document.getElementById("width-slider").addEventListener("input", updateCSS);
+        document.getElementById("height-slider").addEventListener("input", updateCSS);
+        document.getElementById("color-picker").addEventListener("input", updateCSS);
+        document.getElementById("radius-slider").addEventListener("input", updateCSS);
+        document.getElementById("js-select").addEventListener("change", updateJSExample);
+        document.getElementById("run-js").addEventListener("click", runJavaScript);
+    </script>
+</body>
+</html>
